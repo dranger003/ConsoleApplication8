@@ -1,1 +1,6 @@
 .NET Remoting
+
+CERT set-up to run locally (server/client on same machine):
+- Install CA Root in Trusted Root on both User & Local Computer
+- Install CA Root CRL in Trusted Root on both User & Local Computer
+- Install Service 1 PFX in Personal on User

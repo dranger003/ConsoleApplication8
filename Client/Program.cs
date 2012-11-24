@@ -23,6 +23,7 @@ namespace Client
                 //    sc.Send(data);
                 //Console.WriteLine("Sent.");
 
+                Console.WriteLine("\nPress <any key> to continue.");
                 Console.ReadKey(true);
 
                 sc.Close();

@@ -17,6 +17,7 @@ namespace ConsoleApplication8
                 ServiceHost se = new ServiceHost(typeof(Service));
                 se.Open();
 
+                Console.WriteLine("\nPress <any key> to continue.");
                 Console.ReadKey(true);
 
                 se.Close();
