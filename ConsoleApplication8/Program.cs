@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
 using System.Text;
+using System.Windows.Forms;
 
 using ClassLibrary1;
 
@@ -17,7 +18,10 @@ namespace ConsoleApplication8
                 ServiceHost se = new ServiceHost(typeof(Service));
                 se.Open();
 
-                Console.WriteLine("\nPress <any key> to continue.");
+                //Console.WriteLine("\nPress <any key> to continue.");
+                while (!Console.KeyAvailable)
+                    Application.DoEvents();
+
                 Console.ReadKey(true);
 
                 se.Close();

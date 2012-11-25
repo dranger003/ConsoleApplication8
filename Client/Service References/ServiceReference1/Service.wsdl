@@ -1,6 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="Service" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="Service" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
   <wsp:Policy wsu:Id="NetTcpBinding_IService_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <msb:BinaryEncoding xmlns:msb="http://schemas.microsoft.com/ws/06/2004/mspolicy/netbinary1" />
+        <sp:TransportBinding xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <wsp:Policy>
+            <sp:TransportToken>
+              <wsp:Policy>
+                <msf:SslTransportSecurity xmlns:msf="http://schemas.microsoft.com/ws/2006/05/framing/policy">
+                  <msf:RequireClientCertificate />
+                </msf:SslTransportSecurity>
+              </wsp:Policy>
+            </sp:TransportToken>
+            <sp:AlgorithmSuite>
+              <wsp:Policy>
+                <sp:Basic256 />
+              </wsp:Policy>
+            </sp:AlgorithmSuite>
+            <sp:Layout>
+              <wsp:Policy>
+                <sp:Strict />
+              </wsp:Policy>
+            </sp:Layout>
+          </wsp:Policy>
+        </sp:TransportBinding>
+        <wsaw:UsingAddressing />
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="NetTcpBinding_IService2_policy">
     <wsp:ExactlyOne>
       <wsp:All>
         <msb:BinaryEncoding xmlns:msb="http://schemas.microsoft.com/ws/06/2004/mspolicy/netbinary1" />
@@ -41,20 +70,22 @@
   <wsdl:message name="IService_Ping_OutputMessage">
     <wsdl:part name="parameters" element="tns:PingResponse" />
   </wsdl:message>
-  <wsdl:message name="IService_Send_InputMessage">
-    <wsdl:part name="parameters" element="tns:Send" />
+  <wsdl:message name="IService2_Ping2_InputMessage">
+    <wsdl:part name="parameters" element="tns:Ping2" />
   </wsdl:message>
-  <wsdl:message name="IService_Send_OutputMessage">
-    <wsdl:part name="parameters" element="tns:SendResponse" />
+  <wsdl:message name="IService2_Ping2_OutputMessage">
+    <wsdl:part name="parameters" element="tns:Ping2Response" />
   </wsdl:message>
   <wsdl:portType name="IService">
     <wsdl:operation name="Ping">
       <wsdl:input wsaw:Action="http://tempuri.org/IService/Ping" message="tns:IService_Ping_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IService/PingResponse" message="tns:IService_Ping_OutputMessage" />
     </wsdl:operation>
-    <wsdl:operation name="Send">
-      <wsdl:input wsaw:Action="http://tempuri.org/IService/Send" message="tns:IService_Send_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/IService/SendResponse" message="tns:IService_Send_OutputMessage" />
+  </wsdl:portType>
+  <wsdl:portType name="IService2">
+    <wsdl:operation name="Ping2">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService2/Ping2" message="tns:IService2_Ping2_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService2/Ping2Response" message="tns:IService2_Ping2_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="NetTcpBinding_IService" type="tns:IService">
@@ -69,8 +100,12 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="Send">
-      <soap12:operation soapAction="http://tempuri.org/IService/Send" style="document" />
+  </wsdl:binding>
+  <wsdl:binding name="NetTcpBinding_IService2" type="tns:IService2">
+    <wsp:PolicyReference URI="#NetTcpBinding_IService2_policy" />
+    <soap12:binding transport="http://schemas.microsoft.com/soap/tcp" />
+    <wsdl:operation name="Ping2">
+      <soap12:operation soapAction="http://tempuri.org/IService2/Ping2" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -84,6 +119,15 @@
       <soap12:address location="net.tcp://localhost:12346/Service" />
       <wsa10:EndpointReference>
         <wsa10:Address>net.tcp://localhost:12346/Service</wsa10:Address>
+        <Identity xmlns="http://schemas.xmlsoap.org/ws/2006/02/addressingidentity">
+          <Dns>FORMATIQUE Service 1</Dns>
+        </Identity>
+      </wsa10:EndpointReference>
+    </wsdl:port>
+    <wsdl:port name="NetTcpBinding_IService2" binding="tns:NetTcpBinding_IService2">
+      <soap12:address location="net.tcp://localhost:12346/Service2" />
+      <wsa10:EndpointReference>
+        <wsa10:Address>net.tcp://localhost:12346/Service2</wsa10:Address>
         <Identity xmlns="http://schemas.xmlsoap.org/ws/2006/02/addressingidentity">
           <Dns>FORMATIQUE Service 1</Dns>
         </Identity>

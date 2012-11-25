@@ -12,16 +12,23 @@ namespace ClassLibrary1
         [OperationContract]
         string Ping();
 
-        [OperationContract]
-        bool Send(byte[] data);
+        //[OperationContract]
+        //bool Send(byte[] data);
     }
 
-    [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
-    public class Service : IService
+    [ServiceContract]
+    public interface IService2
     {
-        private bool _firstRun = true;
-        private DateTime _start;
-        private int _bytes;
+        [OperationContract]
+        string Ping2();
+    }
+
+    [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Single)]
+    public class Service : IService, IService2
+    {
+        //private bool _firstRun = true;
+        //private DateTime _start;
+        //private int _bytes;
 
         public string Ping()
         {
@@ -29,20 +36,26 @@ namespace ClassLibrary1
             return "OK";
         }
 
-        public bool Send(byte[] data)
+        public string Ping2()
         {
-            if (_firstRun)
-            {
-                _firstRun = false;
-                _start = DateTime.Now;
-                _bytes = 0;
-            }
-
-            _bytes += data.Length;
-
-            Console.Write("\r                                     \r{0} bytes, {1:N2} MiB/s", _bytes, _bytes / (DateTime.Now - _start).TotalSeconds / 1048576.0);
-
-            return true;
+            Console.WriteLine("Ping2()");
+            return "OK2";
         }
+
+        //public bool Send(byte[] data)
+        //{
+        //    if (_firstRun)
+        //    {
+        //        _firstRun = false;
+        //        _start = DateTime.Now;
+        //        _bytes = 0;
+        //    }
+
+        //    _bytes += data.Length;
+
+        //    Console.Write("\r                                     \r{0} bytes, {1:N2} MiB/s", _bytes, _bytes / (DateTime.Now - _start).TotalSeconds / 1048576.0);
+
+        //    return true;
+        //}
     }
 }

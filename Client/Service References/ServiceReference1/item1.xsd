@@ -12,17 +12,15 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="Send">
+  <xs:element name="Ping2">
     <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="0" name="data" nillable="true" type="xs:base64Binary" />
-      </xs:sequence>
+      <xs:sequence />
     </xs:complexType>
   </xs:element>
-  <xs:element name="SendResponse">
+  <xs:element name="Ping2Response">
     <xs:complexType>
       <xs:sequence>
-        <xs:element minOccurs="0" name="SendResult" type="xs:boolean" />
+        <xs:element minOccurs="0" name="Ping2Result" nillable="true" type="xs:string" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

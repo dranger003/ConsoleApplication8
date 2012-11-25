@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+
+using Client.ServiceReference1;
 
 namespace Client
 {
@@ -11,9 +10,11 @@ namespace Client
         {
             try
             {
-                ServiceReference1.ServiceClient sc = new ServiceReference1.ServiceClient();
-
+                ServiceClient sc = new ServiceClient();
                 Console.WriteLine(sc.Ping());
+
+                Service2Client sc2 = new Service2Client();
+                Console.WriteLine(sc2.Ping2());
 
                 //Console.WriteLine("Sending...");
                 //int chunkSize = 16777216;
